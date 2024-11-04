@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for max_element
+using namespace std;
+
+void countSort(int a[], int n)
+{
+    int k = *max_element(a, a + n); // Find the maximum element in the array
+    vector<int> count(k + 1, 0);
+    vector<int> b(n, 0);
+
+    for (int i = 0; i < n; i++)
+    {
+        count[a[i]]++;
+    }
+
+    for (int i = 1; i <= k; i++)
+    {
+        count[i] = count[i] + count[i - 1];
+    }
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        b[--count[a[i]]] = a[i];
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        a[i] = b[i];
+    }
+}
+
+int main()
+{
+    int size;
+    cout << "Enter the size of the array: ";
+    cin >> size;
+
+    int array[size];
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < size; i++)
+    {
+        cin >> array[i];
+    }
+
+    countSort(array, size);
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
